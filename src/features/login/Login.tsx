@@ -5,23 +5,29 @@ import { selectCurentToken } from "../../utils/selectors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch } from "../../app/hooks";
 //  login page with username and password fields,
 //on submit the page sends a POST request to the API to authenticate user credentials,
 // on success the API returns a JWT token to make authenticated requests to secure API routes.
 import { loginUser } from "./userAuthSlice";
-import modal from "../modal";
+import modal from "../modal/modal";
+export type formData = {
+  email: string | undefined;
+  password: string | undefined;
+  rememberMe: boolean | undefined;
+};
 const Login = () => {
   //REACT ROUTER DOM
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   // SELECTORS
   const token = useSelector(selectCurentToken);
 
   // STATE DE LOGIN
-  const form = useRef();
-  const [rememberMe, setRememberMe] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const form = useRef<HTMLFormElement>(null);
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   // when the token is in, navigate to user
   useEffect(() => {
     console.log("enter useeffect login");
@@ -31,16 +37,20 @@ const Login = () => {
     }
   }, [navigate, token]);
   // FUNCTIONS
-  const submitButton = (e) => {
+  const submitButton = (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
-    login(email, password);
+    login(email, password, rememberMe);
   };
 
   const handleChange = () => {
     setRememberMe(!rememberMe);
   };
 
-  const login = (email, password, rememberMe) => {
+  const login = (
+    email: string | undefined,
+    password: string | undefined,
+    rememberMe: boolean | undefined
+  ): void => {
     // First Name: Tony
     // Last Name: Stark
     // Email: tony@stark.com
@@ -54,12 +64,12 @@ const Login = () => {
   };
   // If click outside of FORM => form is close
   useEffect(() => {
-    function handleClickOutside(event) {
+    const handleClickOutside = (event: any): void => {
       if (form.current && !form.current.contains(event.target)) {
         console.log("entré dans login useeffect");
         dispatch(modal.actions.closeModalAction());
       }
-    }
+    };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -103,9 +113,9 @@ const Login = () => {
             />
             <label htmlFor="remember-me">Remember me</label>
           </div>
-          <button className="sign-in-button" onClick={() => login()}>
+          <input className="sign-in-button" type="submit">
             Sign In
-          </button>
+          </input>
         </form>
       </section>
     </main>

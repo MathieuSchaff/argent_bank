@@ -3,17 +3,12 @@ import "./Navbar.scss";
 import iconArgentBank from "../../assets/img/argentBankLogo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import {
-  selectIsLoggedIn,
-  selectorModal,
-  selectUserAuth,
-} from "../../utils/selectors";
+import { selectorModal, selectUserAuth } from "../../utils/selectors";
 import { useDispatch, useSelector } from "react-redux";
-import Login from "../../features/Login/Login";
-import { openModalAction } from "../../features/modal";
+import Login from "../../features/login/Login";
+import { openModalAction } from "../../features/modal/modal";
 
 const Navbar = () => {
-  const isLoggedIn = useSelector(selectIsLoggedIn);
   const modal = useSelector(selectorModal);
   // console.log(userAuth);
   const userAuth = useSelector(selectUserAuth);
@@ -23,7 +18,7 @@ const Navbar = () => {
     dispatch(openModalAction());
   };
   const logout = () => {
-    dispatch(logout());
+    // dispatch(logout());
   };
   return (
     <nav className="main-nav">

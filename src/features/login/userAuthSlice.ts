@@ -1,11 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import type { formData } from "./Login";
+export interface UserAuth {
+  status: string;
+  token: string | null;
+  error: string | null;
+}
+interface IToken {
+  status: number;
+  message: string;
+  body: {
+    token: "string";
+  };
+}
 export const loginUser = createAsyncThunk(
   // action type string
   "userAuth/login",
   // callback function
-  async ({ email, password, rememberMe }, { rejectWithValue }) => {
+  async ({ email, password, rememberMe }: formData, { rejectWithValue }) => {
     try {
       // configure header's Content-Type as JSON
       const config = {
@@ -14,7 +27,7 @@ export const loginUser = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.post(
+      const { data } = await axios.post<IToken>(
         "http://localhost:3001/api/v1/user/login",
         {
           email,
@@ -31,22 +44,22 @@ export const loginUser = createAsyncThunk(
 
       return data.body.token;
     } catch (error) {
-      // return custom error message from API if any
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
-      } else {
+      if (axios.isAxiosError(error)) {
+        console.log("error message: ", error.message);
         return rejectWithValue(error.message);
+      } else {
+        console.log("unexpected error: ", error);
+        return rejectWithValue("An unexpected error occurred");
       }
     }
   }
 );
 
-const initialState = {
+const initialState: UserAuth = {
   status: "idle",
   token: null,
   error: null,
 };
-console.log(initialState);
 const userAuthSlice = createSlice({
   name: "userAuth",
   initialState,
@@ -78,3 +91,6 @@ const userAuthSlice = createSlice({
   },
 });
 export default userAuthSlice;
+// .addCase(decrement, (state, action: PayloadAction<string>) => {
+//   // this would error out
+// })

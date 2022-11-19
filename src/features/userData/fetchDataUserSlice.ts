@@ -1,19 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import authHeader from "./authHeader";
 import type { RootState } from "../../app/store";
-import type { AxiosError } from "axios";
-interface ValidationErrors {
-  errorMessage: string;
-  field_errors: Record<string, string>;
-}
+import type { TypedAuthorization } from "./authHeader";
 
-export const fetchUser = createAsyncThunk<
-  any,
-  any,
-  { getState: RootState; rejectValue: ValidationErrors }
->(
+export interface User {
+  status: "idle";
+  user: null | Object;
+  error: string | null;
+}
+interface IUser {
+  status: number;
+  message: "string";
+  body: {
+    email: string;
+    firstName: string;
+    lastName: string;
+    createdAt: string;
+    updatedAt: string;
+    id: string;
+  };
+}
+export const fetchUser = createAsyncThunk(
   // action type string
   "user/retrieveData",
   // callback function
@@ -22,37 +31,43 @@ export const fetchUser = createAsyncThunk<
       // configure header's Content-Type as JSON
 
       const state = getState();
-      const authHeaders = authHeader(state.userAuth.token);
+      const authHeaders = state.userAuth.token
+        ? authHeader(state.userAuth.token)
+        : null;
+      if (!authHeader) {
+        return rejectWithValue("Token invalide ou absent");
+      }
       const config = {
         headers: {
           "Content-Type": "application/json",
           ...authHeaders,
         },
       };
-      console.log(...authHeader);
       console.log(config);
-      const { data } = await axios.post(
+      const { data } = await axios.post<IUser>(
         "http://localhost:3001/api/v1/user/profile",
         config
       );
-      return data.body.user;
+      return { ...data.body };
     } catch (error) {
-      let error: AxiosError<ValidationErrors> = err; // cast the error for access
-      if (!error.response) {
-        throw err;
+      if (axios.isAxiosError(error)) {
+        console.log("error message: ", error.message);
+        return rejectWithValue(error.message);
+      } else {
+        console.log("unexpected error: ", error);
+        return rejectWithValue("An unexpected error occurred");
       }
-      // We got validation errors, let's return those so we can reference in our component and set form errors
-      return rejectWithValue(error.response.data);
     }
   }
 );
+const initialState: User = {
+  user: null,
+  status: "idle",
+  error: null,
+};
 const fetchDataUserSlice = createSlice({
   name: "user",
-  initialState: {
-    user: null,
-    status: "idle",
-    error: null,
-  },
+  initialState,
   reducers: {},
   extraReducers: {
     [fetchUser.pending]: (state) => {
