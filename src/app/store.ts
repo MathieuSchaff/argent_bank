@@ -1,9 +1,12 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
-
+import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import fetchDataUserSlice from "../features/userData/fetchDataUserSlice";
+import userAuth from "../features/login/userAuthSlice";
+import modal from "../features/modal/modal";
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    userAuth: userAuth.reducer,
+    modal: modal.reducer,
+    user: fetchDataUserSlice.reducer,
   },
 });
 
