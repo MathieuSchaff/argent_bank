@@ -1,12 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import authHeader from "./authHeader";
-import type { RootState } from "../../app/store";
+import type { RootState, Store } from "../../app/store";
 import type { TypedAuthorization } from "./authHeader";
+import { Root } from "react-dom/client";
 
 export interface User {
-  status: "idle";
+  status: string;
   user: null | Object;
   error: string | null;
 }
@@ -22,20 +23,22 @@ interface IUser {
     id: string;
   };
 }
+
 export const fetchUser = createAsyncThunk(
   // action type string
-  "user/retrieveData",
+  "user/fetchUserData",
   // callback function
-  async (_, { getState, rejectWithValue }) => {
+  async (_, thunkApi) => {
     try {
       // configure header's Content-Type as JSON
 
-      const state = getState();
-      const authHeaders = state.userAuth.token
-        ? authHeader(state.userAuth.token)
-        : null;
+      const state = thunkApi.getState();
+      // const authHeaders = state?.userAuth?.token
+      //   ? authHeader(state?.userAuth?.token)
+      //   : null;
+      const authHeaders = {};
       if (!authHeader) {
-        return rejectWithValue("Token invalide ou absent");
+        throw new Error("Token invalide ou absent");
       }
       const config = {
         headers: {
@@ -52,10 +55,10 @@ export const fetchUser = createAsyncThunk(
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log("error message: ", error.message);
-        return rejectWithValue(error.message);
+        return thunkApi.rejectWithValue(error.message);
       } else {
         console.log("unexpected error: ", error);
-        return rejectWithValue("An unexpected error occurred");
+        return thunkApi.rejectWithValue("An unexpected error occurred");
       }
     }
   }
@@ -69,21 +72,24 @@ const fetchDataUserSlice = createSlice({
   name: "user",
   initialState,
   reducers: {},
-  extraReducers: {
-    [fetchUser.pending]: (state) => {
+  extraReducers(builder) {
+    // builder.addCase(fetchUser.pending), (state) => {
+
+    // },
+    builder.addCase(fetchUser.pending, (state) => {
       state.status = "loading";
       state.error = null;
-    },
-    [fetchUser.fulfilled]: (state, { payload }) => {
+    });
+    builder.addCase(fetchUser.fulfilled, (state, { payload }) => {
       state.status = "success";
       state.error = null;
       console.log(payload);
       state.user = payload;
-    },
-    [fetchUser.rejected]: (state, { payload }) => {
+    });
+    builder.addCase(fetchUser.rejected, (state, { payload }) => {
       state.status = "idle";
-      state.error = payload;
-    },
+      state.error = payload as string;
+    });
   },
 });
 

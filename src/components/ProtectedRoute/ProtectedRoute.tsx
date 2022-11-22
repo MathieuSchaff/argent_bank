@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
 import { selectCurentUser } from "../../utils/selectors";
 import { Navigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
 import { selectCurentToken } from "../../utils/selectors";
-import { fetchUser } from "../../features/userData/fetchDataUserSlice";
+import { useAppSelector } from "../../app/hooks";
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
-  const token = useSelector(selectCurentToken);
-
+  const token = useAppSelector(selectCurentToken);
+  console.log("enter protected");
   return token ? children : <Navigate to="/" />;
 };
 

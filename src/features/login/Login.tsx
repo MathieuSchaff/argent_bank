@@ -4,8 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { selectCurentToken } from "../../utils/selectors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch, useSelector } from "react-redux";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 //  login page with username and password fields,
 //on submit the page sends a POST request to the API to authenticate user credentials,
 // on success the API returns a JWT token to make authenticated requests to secure API routes.
@@ -21,7 +20,7 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   // SELECTORS
-  const token = useSelector(selectCurentToken);
+  const token = useAppSelector(selectCurentToken);
 
   // STATE DE LOGIN
   const form = useRef<HTMLFormElement>(null);
@@ -37,7 +36,7 @@ const Login = () => {
     }
   }, [navigate, token]);
   // FUNCTIONS
-  const submitButton = (e: React.FormEvent<HTMLInputElement>) => {
+  const submitButton = (e: React.FormEvent) => {
     e.preventDefault();
     login(email, password, rememberMe);
   };
@@ -113,9 +112,7 @@ const Login = () => {
             />
             <label htmlFor="remember-me">Remember me</label>
           </div>
-          <input className="sign-in-button" type="submit">
-            Sign In
-          </input>
+          <input className="sign-in-button" type="submit" value="Sign in" />
         </form>
       </section>
     </main>

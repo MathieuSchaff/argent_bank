@@ -72,25 +72,20 @@ const userAuthSlice = createSlice({
       };
     },
   },
-  extraReducers: {
-    // register user
-    [loginUser.pending]: (state) => {
+  extraReducers(builder) {
+    builder.addCase(loginUser.pending, (state) => {
       state.status = "loading";
       state.error = null;
-    },
-    [loginUser.fulfilled]: (state, { payload }) => {
+    });
+    builder.addCase(loginUser.fulfilled, (state, { payload }) => {
       state.status = "success";
       state.error = null;
-      console.log(payload);
       state.token = payload;
-    },
-    [loginUser.rejected]: (state, { payload }) => {
+    });
+    builder.addCase(loginUser.rejected, (state, { payload }) => {
       state.status = "idle";
-      state.error = payload;
-    },
+      state.error = payload as string;
+    });
   },
 });
 export default userAuthSlice;
-// .addCase(decrement, (state, action: PayloadAction<string>) => {
-//   // this would error out
-// })
