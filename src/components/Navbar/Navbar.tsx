@@ -3,15 +3,16 @@ import "./Navbar.scss";
 import iconArgentBank from "../../assets/img/argentBankLogo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import { selectorModal, selectUserAuth } from "../../utils/selectors";
+import { selectorModal } from "../../utils/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import Login from "../../features/login/Login";
 import { openModalAction } from "../../features/modal/modal";
+import { useAppSelector } from "../../app/hooks";
+import { selectCurentTokenAuth } from "../../features/auth/authSlice";
 
 const Navbar = () => {
   const modal = useSelector(selectorModal);
-  // console.log(userAuth);
-  const userAuth = useSelector(selectUserAuth);
+  const userToken = useAppSelector(selectCurentTokenAuth);
   const dispatch = useDispatch();
   const openModal = () => {
     console.log("modal/openModal");
@@ -39,13 +40,13 @@ const Navbar = () => {
         )} */}
         {modal.isOpen && <Login />}
 
-        {!userAuth.token && (
+        {!userToken && (
           <button className="main-nav-item" onClick={() => openModal()}>
             <FontAwesomeIcon icon={faCircleUser} />
             Sign In
           </button>
         )}
-        {userAuth.token && <button onClick={logout}>deconnecter</button>}
+        {userToken && <button onClick={logout}>deconnecter</button>}
       </div>
     </nav>
   );

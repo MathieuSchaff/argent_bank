@@ -1,24 +1,19 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-import fetchDataUserSlice from "../features/userData/fetchDataUserSlice";
-import userAuth from "../features/login/userAuthSlice";
 import modal from "../features/modal/modal";
-import type { Modal } from "../features/modal/modal";
-import type { UserAuth } from "../features/login/userAuthSlice";
-import type { User } from "../features/userData/fetchDataUserSlice";
 
-export interface Store {
-  userAuth: UserAuth;
-  modal: Modal;
-  user: User;
-}
+import { apiSlice } from "./api/apiSlice";
+import authSliceReducer from "../features/auth/authSlice";
+
 export const store = configureStore({
   reducer: {
-    userAuth: userAuth.reducer,
     modal: modal.reducer,
-    user: fetchDataUserSlice.reducer,
+    [apiSlice.reducerPath]: apiSlice.reducer,
+    auth: authSliceReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(apiSlice.middleware),
+  devTools: true,
 });
-
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppThunk<ReturnType = void> = ThunkAction<
