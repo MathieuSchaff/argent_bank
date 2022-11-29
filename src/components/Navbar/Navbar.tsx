@@ -1,26 +1,26 @@
-import React from "react";
+import { useState } from "react";
 import "./Navbar.scss";
 import iconArgentBank from "../../assets/img/argentBankLogo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import { selectorModal } from "../../utils/selectors";
-import { useDispatch, useSelector } from "react-redux";
+
 import Login from "../../features/login/Login";
 import { openModalAction } from "../../features/modal/modal";
 import { useAppSelector } from "../../app/hooks";
-import { selectCurentTokenAuth } from "../../features/auth/authSlice";
-
+import { logout, selectCurentTokenAuth } from "../../features/auth/authSlice";
+import { useAppDispatch } from "../../app/hooks";
 const Navbar = () => {
-  const modal = useSelector(selectorModal);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const userToken = useAppSelector(selectCurentTokenAuth);
-  const dispatch = useDispatch();
-  const openModal = () => {
-    console.log("modal/openModal");
-    dispatch(openModalAction());
+  const dispatch = useAppDispatch();
+
+  const logoutUser = () => {
+    dispatch(logout());
   };
-  const logout = () => {
-    // dispatch(logout());
+  const handleToogle = () => {
+    setIsOpen(!isOpen);
   };
+
   return (
     <nav className="main-nav">
       <a className="main-nav-logo" href="./index.html">
@@ -32,21 +32,14 @@ const Navbar = () => {
         <h1 className="sr-only">Argent Bank</h1>
       </a>
       <div>
-        {/* {userAuth.isAuthenticated && (
-          <a className="main-nav-item" onClick={() => logout()}>
-            <FontAwesomeIcon icon={faCircleUser} />
-            Se deconnecter
-          </a>
-        )} */}
-        {modal.isOpen && <Login />}
-
+        {isOpen && <Login handleToogle={handleToogle} />}
         {!userToken && (
-          <button className="main-nav-item" onClick={() => openModal()}>
+          <button className="main-nav-item" onClick={() => handleToogle()}>
             <FontAwesomeIcon icon={faCircleUser} />
             Sign In
           </button>
         )}
-        {userToken && <button onClick={logout}>deconnecter</button>}
+        {userToken && <button onClick={logoutUser}>deconnecter</button>}
       </div>
     </nav>
   );

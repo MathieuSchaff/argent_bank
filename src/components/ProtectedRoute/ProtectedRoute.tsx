@@ -3,7 +3,7 @@ import { useAppSelector } from "../../app/hooks";
 import { selectCurentTokenAuth } from "../../features/auth/authSlice";
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const token = useAppSelector(selectCurentTokenAuth);
-  console.log("enter protected");
+  console.log("enter protected", token);
   return token ? children : <Navigate to="/" />;
 };
 

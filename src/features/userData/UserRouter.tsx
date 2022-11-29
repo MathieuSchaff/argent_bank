@@ -5,20 +5,18 @@ import { useGetUserMutation } from "./userApiSlice";
 import { Link } from "react-router-dom";
 const UserRouter = () => {
   const token = useAppSelector(selectCurentTokenAuth);
-  const user = useAppSelector(selectCurentUserAuth);
 
-  const {
-    data: users,
-    isLoading,
-    isSuccess,
-    isError,
-    error,
-  } = useGetUserMutation();
-
+  const myget = useGetUserMutation();
+  const [getUser, { isLoading, data: user, isError, isSuccess }] =
+    useGetUserMutation();
+  console.log(isLoading);
+  console.log(user);
+  console.log(isError);
+  console.log(isSuccess);
   return (
     <>
       <h1>Je suis le h1 du userprofile</h1>
-      {isError && <p>Error user router</p>}
+      {/* {error && <p>Error user router</p>}
       {isLoading && <p>"Loading..."</p>}
       {isSuccess && (
         <section className="users">
@@ -27,7 +25,7 @@ const UserRouter = () => {
           <Link to="/">Back to HOME</Link>
         </section>
       )}
-      {isError && <p>{JSON.stringify(error)}</p>};
+      {isError && <p>{JSON.stringify(error)}</p>}; */}
     </>
   );
 };

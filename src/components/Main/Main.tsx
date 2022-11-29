@@ -1,9 +1,16 @@
-import React from "react";
+import { useEffect } from "react";
+import { useAppSelector } from "../../app/hooks";
 import iconChat from "../../assets/img/icon-chat.png";
 import iconMoney from "../../assets/img/icon-money.png";
 import iconSecurity from "../../assets/img/icon-security.png";
-
+import { selectCurentTokenAuth } from "../../features/auth/authSlice";
+import { useNavigate } from "react-router-dom";
 const Main = () => {
+  const token = useAppSelector(selectCurentTokenAuth);
+  const navigate = useNavigate();
+  if (token) {
+    navigate("/user");
+  }
   return (
     <main>
       <div className="hero">

@@ -5,64 +5,58 @@ import { selectCurentTokenAuth } from "../../features/auth/authSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { setCredentials } from "../auth/authSlice";
+import { setToken } from "../auth/authSlice";
 import { useLoginMutation } from "../../app/api/authApiSlice";
+
 //  login page with username and password fields,
 //on submit the page sends a POST request to the API to authenticate user credentials,
 // on success the API returns a JWT token to make authenticated requests to secure API routes.
 
-import modal from "../modal/modal";
 export type formData = {
   email: string | undefined;
   password: string | undefined;
   rememberMe: boolean | undefined;
 };
-const Login = () => {
+const Login = ({ handleToogle }: { handleToogle: () => void }) => {
   //REACT ROUTER DOM
   const navigate = useNavigate();
+  // DISPATCH
   const dispatch = useAppDispatch();
-  // SELECTORS
-  const token = useAppSelector(selectCurentTokenAuth);
 
   // STATE DE LOGIN
-  const formContainer = useRef<HTMLElement>(null);
   const [rememberMe, setRememberMe] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [user, setUser] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState<any>("");
+  // DOM REFS
+  const formContainer = useRef<HTMLElement>(null);
   const errRef = useRef<HTMLParagraphElement>(null);
-  // const [login, , { isLoading }] = useLoginMutation();
-  const [login, { isLoading }] = useLoginMutation();
   const userRef = useRef<HTMLInputElement>(null);
-  // when the token is in, navigate to user
-  useEffect(() => {
-    console.log("enter useeffect login");
-    if (token) {
-      console.log("enter navigate login");
-      navigate("/user");
-    }
-  }, [navigate, token]);
-  // FUNCTIONS
+  const [login, { isLoading }] = useLoginMutation();
+
+  // submit
   const submitButton = async (e: React.FormEvent) => {
     e.preventDefault();
+    // try to post email and password to receive the token
     try {
-      const userData = await login({
+      // unwrap to enable cactch
+      const tokenResponse = await login({
         email,
         password,
       }).unwrap();
-      if (userData) {
-        console.log(userData);
-        dispatch(setCredentials({ ...userData, user }));
+      if (tokenResponse.status === 200) {
+        // if token received => can add it into store
+        dispatch(setToken(tokenResponse));
       }
-      setUser("");
+      if (rememberMe) {
+        localStorage.setItem("token", tokenResponse.body.token);
+      }
       setPassword("");
-      // navigate("/user");
-      console.log("fini login");
-    } catch (e) {
-      // probleme de type avec e
+      setEmail("");
+      navigate("/user");
+    } catch (e: unknown) {
       console.error("error login", e);
-      // setErrorMsg(e as string);
+      setErrorMsg(e);
       errRef?.current?.focus();
     }
   };
@@ -84,8 +78,7 @@ const Login = () => {
         formContainer.current &&
         !formContainer.current.contains(event.target)
       ) {
-        console.log("entré dans login useeffect");
-        dispatch(modal.actions.closeModalAction());
+        handleToogle();
       }
     };
 
@@ -93,7 +86,7 @@ const Login = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [formContainer, dispatch]);
+  }, [formContainer, dispatch, handleToogle]);
   return (
     <main className="main bg-dark modal-sign-in">
       <section className="sign-in-content" ref={formContainer}>
