@@ -4,8 +4,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { DataToken } from "../../app/api/authApiSlice";
 import type { IResponseToken } from "../../app/api/apiSlice";
+import { UserData } from "../userData/userApiSlice";
 interface InitialStateAuthSlice {
-  user: string | null;
+  user: UserData | null;
   token: string | null;
 }
 
@@ -14,9 +15,9 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<any>) => {
+    setUser: (state, action: PayloadAction<IResponseToken<UserData>>) => {
       console.log(action);
-      const { user } = action.payload.body;
+      const user = action.payload.body;
       state.user = user;
     },
     setToken: (state, action: PayloadAction<IResponseToken<DataToken>>) => {

@@ -1,12 +1,17 @@
 import { apiSlice } from "../../app/api/apiSlice";
 import type { IResponseToken } from "../../app/api/apiSlice";
-interface UserData {
-  data: any;
+export interface UserData {
+  createdAt: string;
+  email: string;
+  firstName: string;
+  id: string;
+  lastName: string;
+  updatedAt: string;
 }
 
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getUser: builder.mutation<IResponseToken<UserData>, unknown>({
+    getUser: builder.mutation<IResponseToken<UserData>, void>({
       query: () => ({
         url: "/profile",
         method: "POST",

@@ -1,6 +1,7 @@
-import Footer from "../components/Footer/Footer";
+import Footer from "../../components/Footer/Footer";
+import { useAppDispatch } from "../../app/hooks";
 
-const User = () => {
+const ProfilePage = () => {
   return (
     <div>
       <main className="main bg-dark">
@@ -44,9 +45,8 @@ const User = () => {
           </div>
         </section>
       </main>
-      <Footer />
     </div>
   );
 };
 
-export default User;
+export default ProfilePage;

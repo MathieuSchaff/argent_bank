@@ -3,8 +3,8 @@ import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Footer from "./components/Footer/Footer";
-import Main from "./components/Main/Main";
-import UserRouter from "./features/userData/UserRouter";
+import Main from "./pages/Main/Main";
+import ProfilePage from "./features/userData/UserRouter";
 function App() {
   return (
     <div className="App">
@@ -15,7 +15,7 @@ function App() {
           path="/user"
           element={
             <ProtectedRoute>
-              <UserRouter />
+              <ProfilePage />
             </ProtectedRoute>
           }
         />

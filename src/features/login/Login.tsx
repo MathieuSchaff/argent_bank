@@ -1,17 +1,19 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./Login.scss";
 import { useNavigate } from "react-router-dom";
-import { selectCurentTokenAuth } from "../../features/auth/authSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch } from "../../app/hooks";
 import { setToken } from "../auth/authSlice";
 import { useLoginMutation } from "../../app/api/authApiSlice";
 
 //  login page with username and password fields,
 //on submit the page sends a POST request to the API to authenticate user credentials,
 // on success the API returns a JWT token to make authenticated requests to secure API routes.
-
+interface ErrorForm {
+  data: { status: number; message: string };
+  status: number;
+}
 export type formData = {
   email: string | undefined;
   password: string | undefined;
@@ -53,11 +55,21 @@ const Login = ({ handleToogle }: { handleToogle: () => void }) => {
       }
       setPassword("");
       setEmail("");
+      handleToogle();
       navigate("/user");
-    } catch (e: unknown) {
-      console.error("error login", e);
-      setErrorMsg(e);
-      errRef?.current?.focus();
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrorMsg("An unexpected error occurred");
+        errRef?.current?.focus();
+        console.log("unexpected error: ", error);
+        return "An unexpected error occurred";
+        // 👉️ err is type Error here
+      } else {
+        const typedError = error as ErrorForm;
+        setErrorMsg(typedError.data?.message);
+        errRef?.current?.focus();
+        console.log(typedError?.data?.message);
+      }
     }
   };
 
