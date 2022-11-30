@@ -6,11 +6,6 @@ import iconSecurity from "../../assets/img/icon-security.png";
 // import { selectCurentTokenAuth } from "../../features/auth/authSlice";
 // import { useNavigate } from "react-router-dom";
 const Main = () => {
-  // const token: string | null = useAppSelector(selectCurentTokenAuth);
-  // const navigate = useNavigate();
-  // if (token) {
-  //   navigate("/user");
-  // }
   return (
     <main>
       <div className="hero">
