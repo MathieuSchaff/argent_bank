@@ -12,7 +12,7 @@ function App() {
       <Routes>
         <Route index element={<Main />} />
         <Route
-          path="/user"
+          path="/profile"
           element={
             <ProtectedRoute>
               <ProfilePage />

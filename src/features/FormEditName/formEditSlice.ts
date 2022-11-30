@@ -1,5 +1,6 @@
 import { apiSlice } from "../../app/api/apiSlice";
 import type { IResponseToken } from "../../app/api/apiSlice";
+import { UserData } from "../userData/userApiSlice";
 export interface IUserFirstLastData {
   firstName: string;
   lastName: string;
@@ -12,10 +13,10 @@ export interface IRespMutation {
 export const formEditSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     changeUserData: builder.mutation<
-      IResponseToken<IUserFirstLastData>,
+      IResponseToken<UserData>,
       IUserFirstLastData
     >({
-      query: (changes) => ({
+      query: (changes: IUserFirstLastData) => ({
         url: "/profile",
         method: "PUT",
         body: changes,

@@ -1,14 +1,13 @@
 import React from "react";
 import { useAppDispatch } from "../../app/hooks";
-import { setUser } from "../auth/authSlice";
+import { changeUserLastFirstName } from "../auth/authSlice";
 import { useChangeUserDataMutation } from "./formEditSlice";
 import type { IUserFirstLastData, IRespMutation } from "./formEditSlice";
-import type { IResponseToken } from "../../app/api/apiSlice";
+// import type { IResponseToken } from "../../app/api/apiSlice";
 
 const FormEditName = () => {
   const dispatch = useAppDispatch();
-  const [changeUserData, { isError, data, isSuccess }] =
-    useChangeUserDataMutation();
+  const [changeUserData] = useChangeUserDataMutation();
   const [isFormOpen, setIsFormOpen] = React.useState<boolean>(false);
   const [form, setForm] = React.useState<IUserFirstLastData>({
     firstName: "",
@@ -29,7 +28,12 @@ const FormEditName = () => {
       try {
         const responseUpdataData = await changeUserData(form).unwrap();
         if (responseUpdataData.status === 200) {
-          // dispatch();
+          dispatch(changeUserLastFirstName(responseUpdataData));
+          setForm({
+            firstName: "",
+            lastName: "",
+          });
+          setIsFormOpen(false);
         }
         console.log("fulfilled", responseUpdataData);
       } catch (error) {
@@ -62,6 +66,7 @@ const FormEditName = () => {
                 type="text"
                 value={form.firstName}
                 onChange={handleChange}
+                minLength={3}
               />
             </div>
             <div>
@@ -71,6 +76,7 @@ const FormEditName = () => {
                 type="text"
                 value={form.lastName}
                 onChange={handleChange}
+                minLength={3}
               />
             </div>
             <button type="submit"> Save</button>

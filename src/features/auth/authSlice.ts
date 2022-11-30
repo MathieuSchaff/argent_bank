@@ -1,3 +1,4 @@
+import { apiSlice } from "./../../app/api/apiSlice";
 import { authApiSlice } from "./../../app/api/authApiSlice";
 import { RootState } from "./../../app/store";
 import { createSlice } from "@reduxjs/toolkit";
@@ -5,6 +6,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import type { DataToken } from "../../app/api/authApiSlice";
 import type { IResponseToken } from "../../app/api/apiSlice";
 import { UserData } from "../userData/userApiSlice";
+
 interface InitialStateAuthSlice {
   user: UserData | null;
   token: string | null;
@@ -19,6 +21,16 @@ const authSlice = createSlice({
       console.log(action);
       const user = action.payload.body;
       state.user = user;
+    },
+    changeUserLastFirstName: (
+      state,
+      action: PayloadAction<IResponseToken<UserData>>
+    ) => {
+      const { firstName, lastName } = action.payload.body;
+      if (state.user) {
+        state.user.lastName = lastName;
+        state.user.firstName = firstName;
+      }
     },
     setToken: (state, action: PayloadAction<IResponseToken<DataToken>>) => {
       console.log(action);
@@ -35,7 +47,8 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, setUser, setToken } = authSlice.actions;
+export const { logout, setUser, setToken, changeUserLastFirstName } =
+  authSlice.actions;
 export default authSlice.reducer;
 
 export const selectCurentTokenAuth = (state: RootState) => state.auth.token;

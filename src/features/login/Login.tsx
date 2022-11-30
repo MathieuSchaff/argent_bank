@@ -56,7 +56,7 @@ const Login = ({ handleToogle }: { handleToogle: () => void }) => {
       setPassword("");
       setEmail("");
       handleToogle();
-      navigate("/user");
+      navigate("/profile");
     } catch (error: unknown) {
       if (error instanceof Error) {
         setErrorMsg("An unexpected error occurred");
