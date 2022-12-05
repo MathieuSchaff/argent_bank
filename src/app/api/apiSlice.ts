@@ -47,12 +47,12 @@ const baseQueryWithAuthAndLogout = async (
 ) => {
   let result = await baseQuery(args, api, extraOptions);
   console.log(result);
-  if (result.error && result.error.status === 401) {
+  if (result.error && result.error.status > 400) {
     api.dispatch(logout());
   }
   return result;
 };
-
+// typer createApi
 export const apiSlice = createApi({
   reducerPath: "api", // optional
   baseQuery: baseQueryWithAuthAndLogout,

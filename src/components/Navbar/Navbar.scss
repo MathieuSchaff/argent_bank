@@ -10,10 +10,10 @@
   color: #2c3e50;
 }
 
-.main-nav a.router-link-exact-active {
-}
-
 .main-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-decoration: none;
   margin-right: 0.5rem;
   border: #42b983 2px solid;
@@ -24,6 +24,7 @@
   font-weight: bold;
   svg {
     padding-right: 0.5rem;
+    height: 20px;
   }
 }
 

@@ -21,3 +21,4 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 });
 
 export const { useGetUserMutation } = usersApiSlice;
+// /hooks/user/userApislice

@@ -21,7 +21,6 @@ const UserRouter = () => {
   const dispatch = useAppDispatch();
   const [getUser, { isUninitialized, isError, isLoading, isSuccess }] =
     useGetUserMutation();
-  // console.log("data", data);
   console.log("user", user);
   useEffect(() => {
     console.log("enter useEffect");

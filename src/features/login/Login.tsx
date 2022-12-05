@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import { useAppDispatch } from "../../app/hooks";
 import { setToken } from "../auth/authSlice";
-import { useLoginMutation } from "../../app/api/authApiSlice";
+import { useLoginMutation } from "./loginApiSlice";
 
 //  login page with username and password fields,
 //on submit the page sends a POST request to the API to authenticate user credentials,

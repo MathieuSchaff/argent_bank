@@ -1,0 +1,423 @@
+swagger: "2.0"
+info:
+  title: Bank Argent API documentation
+  description: Contains all available API endpoints in this codebase
+  version: "1.0.0"
+  termsOfService: "http://swagger.io/terms/"
+host: localhost:3001
+basePath: /api/v1
+schemes:
+  - http
+paths:
+  /user/login:
+    post:
+      tags:
+        - User Module
+      summary: Login
+      description: API for Login
+      parameters:
+        - in: body
+          name: body
+          description: Login Payload
+          required: true
+          schema:
+            $ref: "#/definitions/Login"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Login Successfully
+          schema:
+            $ref: "#/definitions/LoginResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /user/signup:
+    post:
+      tags:
+        - User Module
+      summary: Signup
+      description: API for Signup
+      parameters:
+        - in: body
+          name: body
+          description: Signup Payload
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Signup Successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /user/profile:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Profile API
+      description: API for fetching a user profile
+      parameters:
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User profile retrieved successully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Profile API
+      description: API for updating a user profile
+      parameters:
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Update user profile attributes
+
+          required: true
+          schema:
+            $ref: "#/definitions/UserProfile"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User profile retrieved successully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+
+  /user/{userId}/transactions:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User Transactions
+      summary: Get User monthly transaction
+      description: API for fetching monthly transaction
+      parameters:
+        - name: userId
+          in: path
+          description: ID of user
+          type: string
+          required: true
+        - in: header
+          type: number
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User banking transactions retrieved successully
+          schema:
+            $ref: "#/definitions/ApiResponseTransactions"
+        "400":
+          description: Bad request, an error occured
+        "401":
+          description: Missing credentials
+        "403":
+          description: Not authorized
+        "404":
+          description: Ressource not found
+        "500":
+          description: Internal Server Error
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - User Transactions
+      summary: Add one transaction to monthly transaction
+      description: API for posting a transaction
+      parameters:
+        - name: userId
+          in: path
+          description: ID of user
+          type: number
+          required: true
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Post a transaction
+
+          required: true
+          schema:
+            $ref: "#/definitions/itemTransaction"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User post transaction successfully
+          schema:
+            $ref: "#/definitions/ApiResponseTransactions"
+        "400":
+          description: Bad request, an error occured
+        "401":
+          description: Missing credentials
+        "403":
+          description: Not authorized
+        "404":
+          description: Ressource not found
+        "500":
+          description: Internal Server Error
+  /user/{userId}/transactions/{transactionId}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Single user transaction
+      summary: API for getting a transaction
+      description: API for getting a transaction
+      parameters:
+        - name: userId
+          in: path
+          description: ID of user
+          type: string
+          required: true
+        - name: transactionId
+          in: path
+          description: the Id of the transaction
+          type: string
+          required: true
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User transaction retrieved successully
+          schema:
+            $ref: "#/definitions/ApiResponseTransaction"
+        "400":
+          description: Bad request, an error occured
+        "401":
+          description: Missing credentials
+        "403":
+          description: Not authorized
+        "404":
+          description: Ressource not found
+        "500":
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Single user transaction
+      summary: User Profile API
+      description: API for updating a user profile
+      operationId: modifyTransaction
+      parameters:
+        - name: userId
+          in: path
+          description: ID of user
+          type: string
+          required: true
+        - name: transactionId
+          in: path
+          description: the Id of the transaction
+          type: string
+          required: true
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Transaction to be updated
+          required: true
+          schema:
+            $ref: "#/definitions/itemTransaction"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User transaction updated successully
+          schema:
+            $ref: "#/definitions/ApiResponseTransaction"
+        "400":
+          description: Bad request, an error occured
+        "401":
+          description: Missing credentials
+        "403":
+          description: Not authorized
+        "404":
+          description: Ressource not found
+        "500":
+          description: Internal Server Error
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Single user transaction
+      summary: Delete one transaction
+      description: Delete one transaction
+      operationId: deleteTransaction
+      parameters:
+        - name: userId
+          in: path
+          description: ID of user
+          type: string
+          required: true
+        - name: transactionId
+          in: path
+          description: the Id of the transaction
+          type: string
+          required: true
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User deleted updated successully
+          schema:
+            $ref: "#/definitions/ApiResponseTransactions"
+        "400":
+          description: Bad request, an error occured
+        "401":
+          description: Missing credentials
+        "403":
+          description: Not authorized
+        "404":
+          description: Ressource not found
+        "500":
+          description: Internal Server Error
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+definitions:
+  User:
+    properties:
+      email:
+        type: string
+        description: user email
+      password:
+        type: string
+        description: user password
+      firstName:
+        type: string
+        description: user first name
+      lastName:
+        type: string
+        description: user last name
+  Login:
+    properties:
+      email:
+        type: string
+        description: user email
+      password:
+        type: string
+        description: user password
+  ApiResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: object
+        properties:
+          id:
+            type: string
+          email:
+            type: string
+  LoginResponse:
+    type: object
+    properties:
+      token:
+        type: string
+  UserProfile:
+    type: object
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+  itemcategory:
+    type: string
+  itemTransaction:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      date:
+        type: string
+      transactiontype:
+        type: string
+      category:
+        type: array
+        items:
+          $ref: "#/definitions/itemcategory"
+      note:
+        type: string
+      amount:
+        type: integer
+    required:
+      - id
+      - name
+  userMonthlyData:
+    type: array
+    items:
+      $ref: "#/definitions/itemTransaction"
+  ApiResponseTransactions:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        $ref: "#/definitions/userMonthlyData"
+  ApiResponseTransaction:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        $ref: "#/definitions/itemTransaction"

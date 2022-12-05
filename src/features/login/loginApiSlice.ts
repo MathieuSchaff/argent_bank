@@ -1,4 +1,4 @@
-import { apiSlice } from "./apiSlice";
+import { apiSlice } from "../../app/api/apiSlice";
 import type { IResponseToken } from "../../app/api/apiSlice";
 interface Credentials {
   email: string;
@@ -7,8 +7,7 @@ interface Credentials {
 export interface DataToken {
   token: string;
 }
-
-export const authApiSlice = apiSlice.injectEndpoints({
+export const loginApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation<IResponseToken<DataToken>, Credentials>({
       query: (credentials) => ({
@@ -20,4 +19,4 @@ export const authApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useLoginMutation } = authApiSlice;
+export const { useLoginMutation } = loginApiSlice;

@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Footer from "./components/Footer/Footer";
 import Main from "./pages/Main/Main";
-import ProfilePage from "./features/userData/UserRouter";
+import UserRouter from "./features/userData/UserRouter";
 function App() {
   return (
     <div className="App">
@@ -15,7 +15,7 @@ function App() {
           path="/profile"
           element={
             <ProtectedRoute>
-              <ProfilePage />
+              <UserRouter />
             </ProtectedRoute>
           }
         />

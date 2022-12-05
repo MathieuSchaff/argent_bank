@@ -1,9 +1,9 @@
 import { apiSlice } from "./../../app/api/apiSlice";
-import { authApiSlice } from "./../../app/api/authApiSlice";
+import { loginApiSlice } from "../login/loginApiSlice";
 import { RootState } from "./../../app/store";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { DataToken } from "../../app/api/authApiSlice";
+import type { DataToken } from "../login/loginApiSlice";
 import type { IResponseToken } from "../../app/api/apiSlice";
 import { UserData } from "../userData/userApiSlice";
 

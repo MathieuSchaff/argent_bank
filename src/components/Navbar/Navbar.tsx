@@ -4,7 +4,7 @@ import iconArgentBank from "../../assets/img/argentBankLogo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import Login from "../../features/login/Login";
+import Login from "../../features/login/LoginFormik";
 import { useAppSelector } from "../../app/hooks";
 import { logout, selectCurentTokenAuth } from "../../features/auth/authSlice";
 import { useAppDispatch } from "../../app/hooks";

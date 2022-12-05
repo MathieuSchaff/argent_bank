@@ -10,6 +10,10 @@
 }
 .errmsg {
   color: firebrick;
+  margin-left: 10px;
+  margin-top: 3px;
+  font-size: 0.8rem;
+  font-weight: bold;
 }
 
 .sign-in-button {
@@ -23,7 +27,9 @@
   background-color: #00bc77;
   color: #fff;
 }
-
+#user__svg {
+  height: 35px;
+}
 .sign-in-content {
   box-sizing: border-box;
   background-color: white;
@@ -54,9 +60,26 @@
 
 .input-wrapper label {
   font-weight: bold;
+  margin-left: 10px;
+  margin-bottom: 3px;
 }
 
-.input-wrapper input {
-  padding: 5px;
+.login__input {
+  border: 2px solid rgba($color: #000000, $alpha: 0.7);
+  border-radius: 1rem;
+  padding: 5px 5px 5px 10px;
   font-size: 1.2rem;
+  transition: opacity 0.2s;
+  &:focus {
+    outline: none;
+    border: 2px solid #00bc77;
+  }
+}
+
+.login__input--error {
+  border: 2px firebrick solid;
+}
+
+button[type="submit"]:active {
+  opacity: 0.7;
 }
