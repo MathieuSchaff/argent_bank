@@ -2,8 +2,7 @@ import iconChat from "../../assets/img/icon-chat.png";
 import iconMoney from "../../assets/img/icon-money.png";
 import iconSecurity from "../../assets/img/icon-security.png";
 import "./Main.scss";
-import { Outlet, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { Outlet } from "react-router-dom";
 /**
  * Main Page of the user on the first page at the endpoint "/"
  * @return JSX.Element

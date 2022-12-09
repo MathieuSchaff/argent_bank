@@ -1,8 +1,13 @@
+@import "../../sass/mixins";
 .main-nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 5px 20px;
+  background-color: #fff;
+  @include respond(lilphone) {
+    padding: 5px 10px;
+  }
 }
 
 .main-nav a {
@@ -22,9 +27,14 @@
   background-color: #fff;
   font-size: 0.8rem;
   font-weight: bold;
+  white-space: nowrap;
   svg {
     padding-right: 0.5rem;
     height: 20px;
+
+    @include respond(lilphone) {
+      display: none;
+    }
   }
 }
 
@@ -45,25 +55,40 @@
 }
 .nav__connected {
   display: flex;
+  font-size: 1.2rem;
+  font-weight: 500;
   align-items: center;
+  font-weight: bold;
+  color: #2c3e50;
   button {
-    font-size: 1.2rem;
     outline: none;
     border: none;
-    font-weight: 500;
     background-color: #fff;
     cursor: pointer;
+    font-size: 1.1rem;
+    padding-left: 0.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+    @include respond(lilphone) {
+      padding-left: 0.5rem;
+    }
   }
   p {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-left: 0.5rem;
-    font-size: 1.2rem;
-    font-weight: 500;
+    @include respond(lilphone) {
+      font-size: 1.1rem;
+      padding-left: 0;
+    }
   }
 }
-
+.nav__first {
+  @include respond(lilphone) {
+    display: none !important;
+  }
+}
 .nav__sec {
   margin-left: 1rem;
+  white-space: nowrap;
 }

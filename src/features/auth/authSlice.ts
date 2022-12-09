@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { DataToken } from "../../components/Login/loginApiSlice";
 import type { IResponseToken } from "../../app/api/apiSlice";
-import { UserData } from "../../components/UserRouter/userApiSlice";
+import { UserData } from "../../components/UserPage/userApiSlice";
 
 interface InitialStateAuthSlice {
   user: UserData | null;

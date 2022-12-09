@@ -1,8 +1,9 @@
+@import "../../sass/variables";
 .account {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid black;
+  border: 2px solid rgb(179, 179, 179);
   background-color: #fff;
   width: 80%;
   margin: 0 auto;
@@ -33,4 +34,33 @@
 .account-content-wrapper {
   width: 100%;
   flex: 1;
+}
+@media (min-width: 720px) {
+  .account {
+    flex-direction: row;
+  }
+
+  .account-content-wrapper.cta {
+    flex: 0;
+  }
+
+  .transaction-button {
+    width: 200px;
+  }
+}
+
+.transaction-button {
+  display: block;
+  width: 100%;
+  padding: 8px 15px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 7px;
+  margin-top: 1rem;
+  border: none;
+  background-color: $color-violet;
+  color: #fff;
+  white-space: nowrap;
+  cursor: pointer;
+  max-width: 215px;
 }

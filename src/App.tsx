@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Footer from "./components/Footer/Footer";
 import Main from "./pages/Main/Main";
-import UserRouter from "./components/UserRouter/UserRouter";
+import UserPage from "./components/UserPage/UserPage";
 import Login from "./components/Login/Login";
 function App() {
   let location = useLocation();
@@ -19,15 +19,14 @@ function App() {
         location.pathname === "/login" ? "App app__overflowhidden" : "App"
       }
     >
-      <div>
+      <div className="router-container">
         <Navbar />
         <Routes>
           <Route path="/" element={<Main />}>
             <Route path="login" element={<Login />} />
           </Route>
-
           <Route element={<ProtectedRoute />}>
-            <Route element={<UserRouter />} path="/profile" />
+            <Route element={<UserPage />} path="/profile" />
           </Route>
         </Routes>
       </div>

@@ -24,44 +24,11 @@
   white-space: nowrap !important; /* 3 */
 }
 
-.edit-button {
-  border-color: #00bc77;
-  background-color: #00bc77;
-  color: #fff;
-  font-weight: bold;
-  padding: 10px;
-}
-
 .header {
   color: #fff;
   margin-bottom: 2rem;
 }
 
-.transaction-button {
-  display: block;
-  width: 100%;
-  padding: 8px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  margin-top: 1rem;
-  border-color: #00bc77;
-  background-color: #00bc77;
-  color: #fff;
-}
-
-@media (min-width: 720px) {
-  .account {
-    flex-direction: row;
-  }
-
-  .account-content-wrapper.cta {
-    flex: 0;
-  }
-
-  .transaction-button {
-    width: 200px;
-  }
-}
 .error {
   color: red;
 }
@@ -69,12 +36,6 @@
   height: 100vh;
   overflow: hidden;
 }
-.user__main {
-  padding-top: 1rem;
+.router-container {
   background-color: #e0e6ed;
-}
-.user__header {
-  color: #293845;
-  font-size: 0.8rem;
-  margin-bottom: 1rem;
 }

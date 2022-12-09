@@ -1,10 +1,8 @@
-import { useState } from "react";
 import "./Navbar.scss";
 import iconArgentBank from "../../assets/img/argentBankLogo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
-import Login from "../Login/Login";
 import { useAppSelector } from "../../app/hooks";
 import { AiOutlineExport } from "react-icons/ai";
 
@@ -19,7 +17,6 @@ const Navbar = () => {
   const user = useAppSelector(selectCurentUserAuth);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  console.log("userToken", userToken);
   const logoutUser = () => {
     dispatch(logout());
   };
@@ -44,8 +41,8 @@ const Navbar = () => {
         {userToken && (
           <div className="nav__connected">
             {" "}
-            <FontAwesomeIcon icon={faCircleUser} />
             <p className="nav__first">
+              <FontAwesomeIcon icon={faCircleUser} />
               {user?.firstName.charAt(0).toUpperCase()}
               {user?.firstName.slice(1)}
             </p>

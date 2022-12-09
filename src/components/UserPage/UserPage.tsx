@@ -6,6 +6,7 @@ import {
   setToken,
   setUser,
 } from "../../features/auth/authSlice";
+import "./UserPage.scss";
 import { useGetUserMutation } from "./userApiSlice";
 import FormEditName from "../FormEditName/FormEditName";
 import Account from "../Account/Account";
@@ -65,7 +66,7 @@ const UserRouter = () => {
     <>
       {isError && <p>Error user</p>}
       {isLoading && <p>"Loading..."</p>}
-      {isError && <p>{JSON.stringify(token)}</p>};
+      {isError && <p>toto</p>}
       {isSuccess && (
         <main className="user__main">
           <div className="user__header">
