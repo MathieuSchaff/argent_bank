@@ -43,3 +43,27 @@
   max-width: 100%;
   width: 200px;
 }
+.nav__connected {
+  display: flex;
+  align-items: center;
+  button {
+    font-size: 1.2rem;
+    outline: none;
+    border: none;
+    font-weight: 500;
+    background-color: #fff;
+    cursor: pointer;
+  }
+  p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+}
+
+.nav__sec {
+  margin-left: 1rem;
+}

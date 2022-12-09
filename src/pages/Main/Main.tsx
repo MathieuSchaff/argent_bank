@@ -2,6 +2,8 @@ import iconChat from "../../assets/img/icon-chat.png";
 import iconMoney from "../../assets/img/icon-money.png";
 import iconSecurity from "../../assets/img/icon-security.png";
 import "./Main.scss";
+import { Outlet, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 /**
  * Main Page of the user on the first page at the endpoint "/"
  * @return JSX.Element
@@ -9,6 +11,7 @@ import "./Main.scss";
 const Main = () => {
   return (
     <main>
+      <Outlet />
       <div className="hero">
         <section className="hero-content">
           <h2 className="sr-only">Promoted Content</h2>

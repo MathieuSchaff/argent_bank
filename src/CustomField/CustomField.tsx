@@ -5,11 +5,13 @@ const CustomField = ({
   field,
   form,
   label,
+  classStyle,
   ...props
 }: {
   label: string;
   field: FieldInputProps<any>;
   form: FormikState<any>;
+  classStyle: string;
 }) => {
   let isError = form.errors[field.name] && form.touched[field.name];
   return (
@@ -19,13 +21,11 @@ const CustomField = ({
         {...field}
         {...props}
         className={
-          isError
-            ? "login__input login__input--error login__focus "
-            : "login__input login__focus"
+          isError ? `${classStyle} login__input--error` : `${classStyle}`
         }
       />
 
-      <ErrorMessage name="email">
+      <ErrorMessage name={field.name}>
         {(errorMsg) => <div className="errmsg">{errorMsg}</div>}
       </ErrorMessage>
     </div>

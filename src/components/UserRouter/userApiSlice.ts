@@ -9,7 +9,7 @@ export interface UserData {
   updatedAt: string;
 }
 
-export const usersApiSlice = apiSlice.injectEndpoints({
+export const { useGetUserMutation } = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getUser: builder.mutation<IResponseToken<UserData>, void>({
       query: () => ({
@@ -20,5 +20,4 @@ export const usersApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetUserMutation } = usersApiSlice;
-// /hooks/user/userApislice
+// export const { useGetUserMutation } = usersApiSlice;

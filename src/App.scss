@@ -1,20 +1,9 @@
 @import "./sass/variables";
-html {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-z body {
-  margin: 0;
+.App {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   min-height: 100vh;
-}
-
-.main {
-  flex: 1;
 }
 
 .bg-dark {
@@ -33,55 +22,6 @@ z body {
   position: absolute !important;
   width: 1px !important;
   white-space: nowrap !important; /* 3 */
-}
-
-.footer {
-  display: flex;
-  justify-content: center;
-  border-top: 2px solid #ccc;
-  padding: 2rem 0 1.5rem;
-}
-
-.footer-text {
-  margin: 0;
-  padding: 0;
-}
-
-.account {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px solid black;
-  background-color: #fff;
-  width: 80%;
-  margin: 0 auto;
-  flex-direction: column;
-  padding: 1.5rem;
-  box-sizing: border-box;
-  text-align: left;
-  margin-bottom: 2rem;
-}
-
-.account-amount {
-  margin: 0;
-  font-size: 2.5rem;
-  font-weight: bold;
-}
-
-.account-amount-description {
-  margin: 0;
-}
-
-.account-title {
-  margin: 0;
-  padding: 0;
-  font-size: 1rem;
-  font-weight: normal;
-}
-
-.account-content-wrapper {
-  width: 100%;
-  flex: 1;
 }
 
 .edit-button {
@@ -124,4 +64,17 @@ z body {
 }
 .error {
   color: red;
+}
+.app__overflowhidden {
+  height: 100vh;
+  overflow: hidden;
+}
+.user__main {
+  padding-top: 1rem;
+  background-color: #e0e6ed;
+}
+.user__header {
+  color: #293845;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
 }

@@ -1,0 +1,42 @@
+@import "./sass/variables";
+@import "./sass/mixins";
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+html {
+  box-sizing: border-box;
+  font-size: 100%; /* root font-size to rem - correspond to 16px but not in px to authorize user to change default font size of his browser - 1rem = 10px; 10px/16px = 62.5% - 16px default size browser font*/
+}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+li {
+  list-style-type: none;
+}
+body {
+  margin: 0;
+  font-family: Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+#root {
+  min-height: 100vh;
+
+  overflow: hidden;
+}

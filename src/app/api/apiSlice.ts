@@ -29,7 +29,6 @@ export type BaseQueryFn<
 ) => MaybePromise<QueryReturnValue<Result, Error, Meta>>;
 const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:3001/api/v1/user",
-  // credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token =
       (getState() as RootState).auth.token ?? localStorage.getItem("token");
@@ -46,13 +45,12 @@ const baseQueryWithAuthAndLogout = async (
   extraOptions: {}
 ) => {
   let result = await baseQuery(args, api, extraOptions);
-  console.log(result);
   if (result.error && result.error.status > 400) {
     api.dispatch(logout());
   }
   return result;
 };
-// typer createApi
+
 export const apiSlice = createApi({
   reducerPath: "api", // optional
   baseQuery: baseQueryWithAuthAndLogout,

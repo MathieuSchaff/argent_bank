@@ -1,16 +1,16 @@
-import React, { useState, useRef, useEffect, FC } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./Login.scss";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import { useAppDispatch } from "../../app/hooks";
-import { setToken } from "../auth/authSlice";
+import { setToken } from "../../features/auth/authSlice";
 import { useLoginMutation } from "./loginApiSlice";
-import CustomField from "./FormikControl";
+import CustomField from "../../CustomField/CustomField";
 import "./Login.scss";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import Spinner from "../../components/Spinner/Spinner";
+import Spinner from "../Spinner/Spinner";
 interface ErrorForm {
   error: string;
   status: number;
@@ -34,7 +34,7 @@ const initialValues: IFormLogin = {
   password: "",
 };
 
-const Login = ({ handleToogle }: { handleToogle: () => void }) => {
+const Login = () => {
   //REACT ROUTER DOM
   const navigate = useNavigate();
   // DISPATCH
@@ -45,7 +45,7 @@ const Login = ({ handleToogle }: { handleToogle: () => void }) => {
 
   const [spinner, setSpinner] = useState<boolean>(false);
   // rtk query hook
-  const [login, result] = useLoginMutation();
+  const [login, { data, isLoading, isError, error }] = useLoginMutation();
   // error catched
   const [errorMsg, setErrorMsg] = useState<any>("");
 
@@ -55,66 +55,49 @@ const Login = ({ handleToogle }: { handleToogle: () => void }) => {
   ) => {
     setErrorMsg("");
     setSpinner(true);
-    console.log("result", result);
-
     try {
-      console.log("result", result);
-
+      console.log("isLoading", isLoading);
       // unwrap to enable cactch
-      // const tokenResponse = await login({
-      //   email: values.email,
-      //   password: values.password,
-      // }).unwrap();
       const tokenResponse = await login({
         email: values.email,
         password: values.password,
       }).unwrap();
-      console.log("result ", result);
-      console.log("tokenResponse ", tokenResponse);
 
-      // if (tokenResponse.status === 200) {
-      //   console.log("isLoading", isLoading);
+      console.log("isLoading", isLoading);
+      if (data || tokenResponse) {
+        console.log("isLoading", isLoading);
 
-      //   // if token received => can add it into store
-      //   dispatch(setToken(tokenResponse));
-
-      if (result.data || tokenResponse) {
-        console.log("result ", result);
+        dispatch(setToken(tokenResponse));
         console.log("tokenResponse ", tokenResponse);
       } else {
-        console.log("isLoading", result);
-
-        throw new Error("la tete a toto");
+        console.log("isLoading", isLoading);
+        throw new Error("An error occured: password or email invalid");
       }
-      // if (values.rememberMe) {
-      //   localStorage.setItem("token", tokenResponse.body.token);
-      // }
-      console.log("result", result);
-      console.log("tokenResponse ", tokenResponse);
-
-      handleToogle();
-      // navigate("/profile");
+      if (values.rememberMe) {
+        localStorage.setItem("token", tokenResponse.body.token);
+      }
+      navigate("/profile");
     } catch (error: unknown) {
+      console.log("isLoading", isLoading);
+
       if (error instanceof Error) {
-        console.log("result", result);
+        console.log("isLoading", isLoading);
 
         setErrorMsg("An unexpected error occurred");
         errRef?.current?.focus();
-        console.log("unexpected error: ", error);
         return "An unexpected error occurred";
         // 👉️ err is type Error here
       } else {
-        console.log("result", result);
+        console.log("isLoading", isLoading);
+
         const typedError = error as ErrorForm;
         setErrorMsg(typedError.error);
         errRef?.current?.focus();
-        console.log(typedError?.error);
       }
     } finally {
       helpers.resetForm();
       helpers.setSubmitting(false);
       setSpinner(false);
-      console.log("result", result);
     }
   };
   useEffect(() => {
@@ -123,7 +106,7 @@ const Login = ({ handleToogle }: { handleToogle: () => void }) => {
         formContainer.current &&
         !formContainer.current.contains(event.target as Node)
       ) {
-        handleToogle();
+        navigate("/");
       }
     };
 
@@ -131,12 +114,14 @@ const Login = ({ handleToogle }: { handleToogle: () => void }) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [formContainer, handleToogle]);
+  }, [formContainer, navigate]);
   return (
     <main className="main bg-dark modal-sign-in">
       <section className="sign-in-content" ref={formContainer}>
-        <FontAwesomeIcon icon={faCircleUser} id="user__svg" />
-        <h1>Sign In</h1>
+        <div>
+          <FontAwesomeIcon icon={faCircleUser} id="user__svg" />
+          <h1>Sign In</h1>
+        </div>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -146,11 +131,12 @@ const Login = ({ handleToogle }: { handleToogle: () => void }) => {
           {({ isSubmitting, dirty, isValid, handleBlur }) => {
             return (
               <Form>
-                {result.error && (
-                  <p ref={errRef} className="errmsg">
-                    {errorMsg}
-                  </p>
-                )}
+                {isError ||
+                  (error && (
+                    <p ref={errRef} className="errmsg">
+                      {errorMsg}
+                    </p>
+                  ))}
                 {spinner ? (
                   <Spinner />
                 ) : (
@@ -161,6 +147,7 @@ const Login = ({ handleToogle }: { handleToogle: () => void }) => {
                       type="email"
                       component={CustomField}
                       label="Email"
+                      classStyle="login__input "
                       onBlur={handleBlur}
                     />
                     <Field
@@ -169,6 +156,7 @@ const Login = ({ handleToogle }: { handleToogle: () => void }) => {
                       type="password"
                       component={CustomField}
                       label="Password"
+                      classStyle="login__input "
                       autoComplete="on"
                       onBlur={handleBlur}
                     />
@@ -181,7 +169,7 @@ const Login = ({ handleToogle }: { handleToogle: () => void }) => {
                       <label htmlFor="rememberMe">Remember me</label>
                     </div>
                     <button
-                      className="sign-in-button"
+                      className="css-button-sliding-to-left--green"
                       type="submit"
                       disabled={!(dirty && isValid) || isSubmitting}
                     >

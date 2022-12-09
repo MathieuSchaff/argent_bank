@@ -1,0 +1,60 @@
+@import "../../sass/variables";
+.editForm__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $color-violet;
+  margin-bottom: 1rem;
+  form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 50%;
+    button {
+      font-size: 1.4rem;
+      font-weight: 500;
+      border-radius: 5px;
+      margin: 0;
+      padding: 3px 25px 3px 25px;
+      background-color: #fff;
+      border: 2px $color-violet solid;
+      color: $color-violet;
+      display: inline-block;
+    }
+  }
+}
+.editName__inputsContainer {
+  display: flex;
+}
+.editName__buttonsContainer {
+  display: flex;
+}
+.edit__input {
+  padding: 0.8rem 1.5rem;
+  border: 2px solid #b8c4ce;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: $color-violet;
+  &::placeholder {
+    color: #b8c4ce;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+.editName__container {
+  display: flex;
+  flex-direction: column;
+}
+.editName__container--1 {
+  button {
+    align-self: flex-end;
+  }
+}
+.editName__container--2 {
+  button {
+    align-self: flex-start;
+  }
+}

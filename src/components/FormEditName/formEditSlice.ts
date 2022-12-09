@@ -1,6 +1,6 @@
 import { apiSlice } from "../../app/api/apiSlice";
 import type { IResponseToken } from "../../app/api/apiSlice";
-import { UserData } from "../userData/userApiSlice";
+import { UserData } from "../UserRouter/userApiSlice";
 export interface IUserFirstLastData {
   firstName: string;
   lastName: string;
