@@ -9,7 +9,7 @@ import {
 import "./UserPage.scss";
 import { useGetUserMutation } from "./userApiSlice";
 import FormEditName from "../FormEditName/FormEditName";
-import Account from "../Account/Account";
+import Account from "../../pages/Account/Account";
 import type { IResponseToken } from "../../app/api/apiSlice";
 import type { DataToken } from "../Login/loginApiSlice";
 

@@ -6,7 +6,7 @@ import { useChangeUserDataMutation } from "./formEditSlice";
 import type { IUserFirstLastData } from "./formEditSlice";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import CustomField from "../../CustomField/CustomField";
+import CustomField from "../CustomField/CustomField";
 import { selectCurentUserAuth } from "../../features/auth/authSlice";
 export interface IFormChangeLastFirstName {
   firstName: string;
@@ -47,9 +47,11 @@ const FormEditName = () => {
 
           setIsFormOpen(false);
         }
-        console.log("fulfilled", responseUpdataData);
       } catch (error) {
         console.error("rejected", error);
+      } finally {
+        helpers.resetForm();
+        helpers.setSubmitting(false);
       }
     };
     updataUserData();

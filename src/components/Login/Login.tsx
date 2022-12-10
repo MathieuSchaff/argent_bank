@@ -6,7 +6,7 @@ import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import { useAppDispatch } from "../../app/hooks";
 import { setToken } from "../../features/auth/authSlice";
 import { useLoginMutation } from "./loginApiSlice";
-import CustomField from "../../CustomField/CustomField";
+import CustomField from "../CustomField/CustomField";
 import "./Login.scss";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import * as Yup from "yup";

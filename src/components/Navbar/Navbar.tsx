@@ -40,12 +40,11 @@ const Navbar = () => {
         )}
         {userToken && (
           <div className="nav__connected">
-            {" "}
-            <p className="nav__first">
+            <Link className="nav__first" to="/profile">
               <FontAwesomeIcon icon={faCircleUser} />
               {user?.firstName.charAt(0).toUpperCase()}
               {user?.firstName.slice(1)}
-            </p>
+            </Link>
             <p className="nav__sec">
               <AiOutlineExport />
               <button onClick={logoutUser}>Sign Out</button>
