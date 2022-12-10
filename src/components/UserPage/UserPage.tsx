@@ -54,7 +54,6 @@ const UserRouter = () => {
           } else {
             throw new Error("Could not get user data");
           }
-          console.log("fulfilled", responseGetData);
         } catch (error) {
           console.error("rejected", error);
         }

@@ -1,5 +1,4 @@
 import "./App.scss";
-import { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
@@ -9,10 +8,7 @@ import UserPage from "./components/UserPage/UserPage";
 import Login from "./components/Login/Login";
 function App() {
   let location = useLocation();
-  useEffect(() => {
-    console.log("location", location);
-  }, [location]);
-  console.log(useLocation);
+
   return (
     <div
       className={

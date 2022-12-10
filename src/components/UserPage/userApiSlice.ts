@@ -19,5 +19,3 @@ export const { useGetUserMutation } = apiSlice.injectEndpoints({
     }),
   }),
 });
-
-// export const { useGetUserMutation } = usersApiSlice;
