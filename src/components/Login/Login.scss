@@ -19,7 +19,11 @@
   position: absolute;
   bottom: -15px;
 }
-
+.form-errmsg {
+  color: firebrick;
+  margin-top: 3px;
+  font-size: 0.9rem;
+}
 .css-button-sliding-to-left--green {
   min-width: 130px;
   height: 40px;

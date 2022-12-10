@@ -11,14 +11,18 @@ import "./Login.scss";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import Spinner from "../Spinner/Spinner";
-interface ErrorForm {
-  error: string;
-  status: number;
-}
+
 export interface IFormLogin {
   email: string;
   password: string;
   rememberMe: boolean;
+}
+interface ErrorForm {
+  data: {
+    status: number;
+    message: string;
+  };
+  status: number;
 }
 const validationSchema = Yup.object({
   email: Yup.string().email("Invalid email address").required("Required"),
@@ -33,7 +37,10 @@ const initialValues: IFormLogin = {
   rememberMe: false,
   password: "",
 };
-
+const Toto = ({ data }: { data: any }) => {
+  console.log("enter toto data", data);
+  return <div> JE SUIS TOTO</div>;
+};
 const Login = () => {
   //REACT ROUTER DOM
   const navigate = useNavigate();
@@ -45,57 +52,50 @@ const Login = () => {
 
   const [spinner, setSpinner] = useState<boolean>(false);
   // rtk query hook
-  const [login, { data, isLoading, isError, error }] = useLoginMutation();
+  const [login, result] = useLoginMutation();
   // error catched
-  const [errorMsg, setErrorMsg] = useState<any>("");
-
+  const [errorMsg, setErrorMsg] = useState<string>("");
+  // const wait = (nb: number) => {
+  //   return new Promise((resolve) =>
+  //     setTimeout(() => {
+  //       resolve(nb);
+  //       console.log(nb);
+  //     }, nb)
+  //   );
+  // };
   const submitButton = async (
     values: IFormLogin,
     helpers: FormikHelpers<IFormLogin>
   ) => {
     setErrorMsg("");
     setSpinner(true);
+
     try {
-      console.log("isLoading", isLoading);
-      // unwrap to enable cactch
       const tokenResponse = await login({
         email: values.email,
         password: values.password,
       }).unwrap();
-
-      console.log("isLoading", isLoading);
-      if (data || tokenResponse) {
-        console.log("isLoading", isLoading);
-
+      if (tokenResponse.status === 200) {
         dispatch(setToken(tokenResponse));
-        console.log("tokenResponse ", tokenResponse);
       } else {
-        console.log("isLoading", isLoading);
-        throw new Error("An error occured: password or email invalid");
+        throw new Error("An error occured");
       }
       if (values.rememberMe) {
         localStorage.setItem("token", tokenResponse.body.token);
       }
       navigate("/profile");
     } catch (error: unknown) {
-      console.log("isLoading", isLoading);
-
       if (error instanceof Error) {
-        console.log("isLoading", isLoading);
-
         setErrorMsg("An unexpected error occurred");
         errRef?.current?.focus();
         return "An unexpected error occurred";
-        // 👉️ err is type Error here
       } else {
-        console.log("isLoading", isLoading);
-
         const typedError = error as ErrorForm;
-        setErrorMsg(typedError.error);
+        setErrorMsg(typedError.data.message);
         errRef?.current?.focus();
       }
     } finally {
-      helpers.resetForm();
+      // helpers.resetForm();
       helpers.setSubmitting(false);
       setSpinner(false);
     }
@@ -131,16 +131,15 @@ const Login = () => {
           {({ isSubmitting, dirty, isValid, handleBlur }) => {
             return (
               <Form>
-                {isError ||
-                  (error && (
-                    <p ref={errRef} className="errmsg">
-                      {errorMsg}
-                    </p>
-                  ))}
                 {spinner ? (
                   <Spinner />
                 ) : (
                   <>
+                    {errorMsg && (
+                      <p ref={errRef} className="form-errmsg">
+                        {errorMsg}
+                      </p>
+                    )}
                     <Field
                       id="email"
                       name="email"
@@ -187,3 +186,35 @@ const Login = () => {
 };
 
 export default Login;
+
+// when not unwrap =>
+
+//  result=
+// {endpointName:"login"
+// error: {status: 400, data: {…}}
+// isError:true
+// isLoading:false
+// isSuccess:false
+// isUninitialized:false
+// originalArgs:{email: 'aaaa@gmail.coma', password: 'aaaaaaaaaaaaaaa'}
+// requestId :"DkFnRyG1msgqcDvOITZ13"
+// reset:ƒ ()
+// startedTimeStamp:1670641229477
+// status:"rejected"}
+// doesn't enter in catch
+
+// // tokenresponse =
+// {error: {
+//   data: {status: 400, message: 'Error: User not found!'}
+//   status: 400
+// }}
+
+// response with success wil lbe an object with a key data and the data inside
+
+// with unwrap =>
+// if response is sucess =>
+// the object response is directly the result of the call
+
+// when fail =>
+// it will throw the error and you have to catch it
+// the errir response will be the err response from the server.

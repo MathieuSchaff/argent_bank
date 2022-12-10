@@ -17,7 +17,7 @@ interface IFormatedUser {
   firstName: string;
   lastName: string;
 }
-const UserRouter = () => {
+const UserPage = () => {
   const token = useAppSelector(selectCurentTokenAuth);
   const user = useAppSelector(selectCurentUserAuth);
   const dispatch = useAppDispatch();
@@ -83,4 +83,4 @@ const UserRouter = () => {
   );
 };
 
-export default UserRouter;
+export default UserPage;
