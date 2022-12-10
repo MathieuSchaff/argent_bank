@@ -16,17 +16,11 @@ export interface IResponseToken<T> {
   error?: any;
   body: T;
 }
-interface ErrorForm {
-  data: {
-    status: number;
-    message: string;
-  };
-  status: number;
-}
+
 export type BaseQueryFn<
   Args = any,
   Result = unknown,
-  Error = ErrorForm,
+  Error = unknown,
   DefinitionExtraOptions = {},
   Meta = {}
 > = (
