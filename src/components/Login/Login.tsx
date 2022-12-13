@@ -37,10 +37,7 @@ const initialValues: IFormLogin = {
   rememberMe: false,
   password: "",
 };
-const Toto = ({ data }: { data: any }) => {
-  console.log("enter toto data", data);
-  return <div> JE SUIS TOTO</div>;
-};
+
 const Login = () => {
   //REACT ROUTER DOM
   const navigate = useNavigate();
@@ -55,14 +52,7 @@ const Login = () => {
   const [login, result] = useLoginMutation();
   // error catched
   const [errorMsg, setErrorMsg] = useState<string>("");
-  // const wait = (nb: number) => {
-  //   return new Promise((resolve) =>
-  //     setTimeout(() => {
-  //       resolve(nb);
-  //       console.log(nb);
-  //     }, nb)
-  //   );
-  // };
+
   const submitButton = async (
     values: IFormLogin,
     helpers: FormikHelpers<IFormLogin>
@@ -186,35 +176,3 @@ const Login = () => {
 };
 
 export default Login;
-
-// when not unwrap =>
-
-//  result=
-// {endpointName:"login"
-// error: {status: 400, data: {…}}
-// isError:true
-// isLoading:false
-// isSuccess:false
-// isUninitialized:false
-// originalArgs:{email: 'aaaa@gmail.coma', password: 'aaaaaaaaaaaaaaa'}
-// requestId :"DkFnRyG1msgqcDvOITZ13"
-// reset:ƒ ()
-// startedTimeStamp:1670641229477
-// status:"rejected"}
-// doesn't enter in catch
-
-// // tokenresponse =
-// {error: {
-//   data: {status: 400, message: 'Error: User not found!'}
-//   status: 400
-// }}
-
-// response with success wil lbe an object with a key data and the data inside
-
-// with unwrap =>
-// if response is sucess =>
-// the object response is directly the result of the call
-
-// when fail =>
-// it will throw the error and you have to catch it
-// the errir response will be the err response from the server.
