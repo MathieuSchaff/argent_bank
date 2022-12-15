@@ -114,7 +114,7 @@ paths:
         "500":
           description: Internal Server Error
 
-  /user/{userId}/transactions:
+  /transaction:
     get:
       security:
         - Bearer: []
@@ -123,11 +123,6 @@ paths:
       summary: Get User monthly transaction
       description: API for fetching monthly transaction
       parameters:
-        - name: userId
-          in: path
-          description: ID of user
-          type: string
-          required: true
         - in: header
           type: number
           name: Authorization
@@ -158,11 +153,6 @@ paths:
       summary: Add one transaction to monthly transaction
       description: API for posting a transaction
       parameters:
-        - name: userId
-          in: path
-          description: ID of user
-          type: number
-          required: true
         - in: header
           type: string
           name: Authorization
@@ -192,7 +182,7 @@ paths:
           description: Ressource not found
         "500":
           description: Internal Server Error
-  /user/{userId}/transactions/{transactionId}:
+  /transaction/{transactionId}:
     get:
       security:
         - Bearer: []
@@ -201,11 +191,6 @@ paths:
       summary: API for getting a transaction
       description: API for getting a transaction
       parameters:
-        - name: userId
-          in: path
-          description: ID of user
-          type: string
-          required: true
         - name: transactionId
           in: path
           description: the Id of the transaction
@@ -242,11 +227,6 @@ paths:
       description: API for updating a user profile
       operationId: modifyTransaction
       parameters:
-        - name: userId
-          in: path
-          description: ID of user
-          type: string
-          required: true
         - name: transactionId
           in: path
           description: the Id of the transaction
@@ -289,11 +269,6 @@ paths:
       description: Delete one transaction
       operationId: deleteTransaction
       parameters:
-        - name: userId
-          in: path
-          description: ID of user
-          type: string
-          required: true
         - name: transactionId
           in: path
           description: the Id of the transaction
